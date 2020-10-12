@@ -5,13 +5,13 @@ namespace Problem_B
     {
         public int x, y;
     };
-    class wspolczynniki
+    class coefficients
     {
         public double a, b, c;
     };
     class Program
     {      
-        static int licznik(wspolczynniki[] array, int n, int ii)
+        static int counter(coefficients[] array, int n, int ii)
         {          
             int maxL = 1; //maksymalna ilość znalezionych punktów do tej pory
             for (int i = 0; i < n-1-ii; i++)
@@ -37,7 +37,7 @@ namespace Problem_B
             return (maxL);
         }
 
-        static int funkcja_liniowa(vertex A, vertex B, ref double a, ref double b, ref double c)
+        static int line_function(vertex A, vertex B, ref double a, ref double b, ref double c)
         {
             double a1 = (A.y - B.y);
             double a2 = (A.x - B.x);
@@ -57,67 +57,67 @@ namespace Problem_B
             b = Math.Round(b, 6);
             return 1;
         }
-        static int obliczanie(vertex[] array, int n)
+        static int calculation(vertex[] array, int n)
         {
-            int max_ilosc_wspoliniowych = 0;
-            wspolczynniki[] array_wspolczynniki = new wspolczynniki[n];
+            int max_number_of_collinears = 0;
+            coefficients[] array_coefficients = new coefficients[n];
             for (int i = 0; i < n; i++)
             {
                 int k = 0;
                 for (int j = i + 1; j < n; j++)
                 {                   
-                    array_wspolczynniki[k] = new wspolczynniki();
-                    funkcja_liniowa(array[i], array[j], ref array_wspolczynniki[k].a, ref array_wspolczynniki[k].b, ref array_wspolczynniki[k].c);                                                          
+                    array_coefficients[k] = new coefficients();
+                    line_function(array[i], array[j], ref array_coefficients[k].a, ref array_coefficients[k].b, ref array_coefficients[k].c);                                                          
                     k++;
                 }
-                int tmp = licznik(array_wspolczynniki, n, i);
-                if (tmp > max_ilosc_wspoliniowych)
+                int tmp = counter(array_coefficients, n, i);
+                if (tmp > max_number_of_collinears)
                 {
-                    max_ilosc_wspoliniowych = tmp;                   
+                    max_number_of_collinears = tmp;                   
                 }            
             }
-            return max_ilosc_wspoliniowych;
+            return max_number_of_collinears;
         }
 
         static void Main(string[] args)
         {
             string x=" ";
             int j = 0;
-            string linia; // linia tekstu pobrana z pliku
-            char[] znak = { ' ' }; //oddzielenie współrzędnych X i Y w linii
+            string line; // linia tekstu pobrana z pliku
+            char[] sign = { ' ' }; //oddzielenie współrzędnych X i Y w linii
             vertex[] array = new vertex[1000];           
             do
             {                
                 int nr = 1;
                 do
                 {
-                    int licznik = 0;
+                    int counter = 0;
                     if(x != " ")
                     {
                         array[0] = new vertex();
                         j = 1;
-                        string[] test2 = x.Split(znak);
+                        string[] test2 = x.Split(sign);
                         array[0].x = Convert.ToInt32(test2[0]);
                         array[0].y = Convert.ToInt32(test2[1]);
-                        licznik++;
+                        counter++;
                     }
                     for (int i = 0 + j; i <= 1000; i++)
                     {
-                        linia = Console.ReadLine();
-                        if (linia.Contains("--"))
+                        line = Console.ReadLine();
+                        if (line.Contains("--"))
                         {
                             break;
                         }
                         else
                         {
                             array[i] = new vertex();
-                            string[] test2 = linia.Split(znak);
+                            string[] test2 = line.Split(sign);
                             array[i].x = Convert.ToInt32(test2[0]);
                             array[i].y = Convert.ToInt32(test2[1]);
-                            licznik++;
+                            counter++;
                         }
                     }
-                    Console.WriteLine(nr++ + ". " + obliczanie(array, licznik));
+                    Console.WriteLine(nr++ + ". " + calculation(array, counter));
                     x = Console.ReadLine();
                 } while (!x.Contains("--"));
                 x = Console.ReadLine();
